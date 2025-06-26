@@ -11,20 +11,12 @@ app.use(cors());
 app.use(express.json());
 
 // PostgreSQL connection
-const { Pool } = require('pg');
-
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
-});
-
-// Test the connection
-pool.connect((err) => {
-  if (err) {
-    console.error('Error connecting to Railway database:', err);
-  } else {
-    console.log('Connected to Railway PostgreSQL database!');
-  }
+  user: process.env.DB_USER || 'postgres',
+  host: process.env.DB_HOST || 'localhost',
+  database: process.env.DB_NAME || process.env.DB_DATABASE || 'ScheduleDB',
+  password: process.env.DB_PASSWORD || 'your_password',
+  port: process.env.DB_PORT || 5432,
 });
 
 // Test database connection
